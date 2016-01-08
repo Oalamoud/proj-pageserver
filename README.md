@@ -9,7 +9,7 @@ Project pageserver for CIS 399se (CIS322)
 * My Username on the ix server is "oka", the folder can be located at `ix.cs.uoregon.edu/~oka/public_html/cis399se/httbin/proj-pageserver/`
 
 
-#### extra feature ####
+#### Extra feature ####
 I have printed all the errors to the server console, becuase why not. It is just something I wanted to leave after debugging, it is a nice debugging tool.
 
 ### Who do I talk to? ###
