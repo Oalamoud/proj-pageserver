@@ -48,6 +48,9 @@ def serve(sock, func):
         (clientsocket, address) = sock.accept()
         _thread.start_new_thread(func, (clientsocket,))
 
+
+
+
 def error(errorCode, msg='I dont handle this request, '):
     """
     Handle HTTP error codes
@@ -86,7 +89,7 @@ def fileHandler(filename):
            error:
                 400 bad request: if url contains any of the following("//","..","~")
                 403 forbidden: if the requested file was not html or css
-                404 not found: if the 
+                404 not found: if the file was not found 
 
     """
     # Handling the "../" and "./" in the get request
