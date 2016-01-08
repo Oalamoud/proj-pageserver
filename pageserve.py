@@ -7,9 +7,7 @@ Socket programming in Python
   error handling and many other things to keep the illustration as simple
   as possible. 
 
-  FIXME:
-  Currently this program always serves an ascii graphic of a cat.
-  Change it to serve files if they end with .html and are in the current directory
+  FIXED BY: Omar Alamoudi
 """
 
 import socket    # Basic TCP/IP communication on the internet
@@ -51,24 +49,39 @@ def serve(sock, func):
         _thread.start_new_thread(func, (clientsocket,))
 
 
-CAT = """
-     ^ ^
-   =(   )=
-   """
-
-def filehandler(filename,path):
+def fileHandler(filename):
     """
     Opens the requested file and returns the contant of the file if it is in html
-    """
-    #if filename[-4:]== "html":
-    #    "Handle the file"
-    #else:
-    #    return "This format cannot be handled"
 
-    for reqFile in  os.listdir(path):
-        if reqFfile.endwith(".html"):
-            if reqFile == filename:
-                #open the file
+    Takes:
+        filename: The name of the file from the GET request
+    Returns:
+        The content of the file, if every thing work fine
+        
+
+    """
+    # Handling the "../" and "./" in the get request
+    if "./"in filename or  "../" in filename:
+        return "HTTP/1.0 403 FORBIDDEN"
+    filename= filename[1:] # get rid of the first character '/'
+    
+
+    if os.path.isfile(filename):   # if file in folder
+        if filename.endswith(".html"): # if file is html
+            #open the file
+            f =open(filename,"r") 
+            #return file content
+            read_data= f.read()
+            f.close()
+            return read_data
+            # return file content
+                
+        else:
+            #Not found
+            return "HTTP/1.0 403 FORBIDDEN\n\n"
+    else:
+        # This server soes not handle this type of files
+        return "HTTP/1.0 404 NOT FOUND\n\n"
 
 
 
@@ -86,6 +99,7 @@ def respond(sock):
     if len(parts) > 1 and parts[0] == "GET":
         transmit("HTTP/1.0 200 OK\n\n", sock)
         transmit(fileHandler(parts[1]), sock)
+        #transmit(parts[1],sock)
     else:
         transmit("\nI don't handle this request: {}\n".format(request), sock)
 
