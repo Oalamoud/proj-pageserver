@@ -7,7 +7,9 @@ Socket programming in Python
   error handling and many other things to keep the illustration as simple
   as possible. 
 
-  FIXED BY: Omar Alamoudi
+  FIXME:
+  Currently this program always serves an ascii graphic of a cat.
+  Change it to serve files if they end with .html and are in the current directory
 """
 
 import socket    # Basic TCP/IP communication on the internet
@@ -49,28 +51,21 @@ def serve(sock, func):
         _thread.start_new_thread(func, (clientsocket,))
 
 
-
-
-
 def fileHandler(filename):
     """
-    Opens the requested file and returns the contant of the file if it is in html or css
-
-    Takes:
-        filename: The name of the file from the GET request
-    Returns:
-        The content of the file, if every thing work fine
-        
-
+    Opens the requested file and returns the contant of the file if it is in html
     """
-    # Handling the "../" and "./" in the get request
-    if "~"in filename or  ".." in filename or "//" in filename:
-        return "I don't handle this request, 403 FORBIDDEN\n\n"
+    #if filename[-4:]== "html":
+    #    "Handle the file"
+    #else:
+    #    return "This format cannot be handled"
+    if "./"in filename or  "../" in filename:
+        return "HTTP/1.0 403 FORBIDDEN"
     filename= filename[1:] # get rid of the first character '/'
     
 
     if os.path.isfile(filename):   # if file in folder
-        if filename.endswith(".html") or filename.endwith(".css"): # if file is html or css
+        if filename.endswith(".html"): # if file is html
             #open the file
             f =open(filename,"r") 
             #return file content
@@ -81,10 +76,10 @@ def fileHandler(filename):
                 
         else:
             #Not found
-            return "I don't handle this request, 403 FORBIDDEN\n\n"
+            return "HTTP/1.0 403 FORBIDDEN\n\n"
     else:
         # This server soes not handle this type of files
-        return "I don't handle this request, 404 NOT FOUND\n\n"
+        return "HTTP/1.0 404 NOT FOUND\n\n"
 
 
 
@@ -119,7 +114,8 @@ def transmit(msg, sock):
     
 
 def main():
-    port = random.randint(5000,8000)
+    #port = random.randint(5000,8000)
+    port = 5100 # for debuging
     sock = listen(port)
     print("Listening on port {}".format(port))
     print("Socket is {}".format(sock))
