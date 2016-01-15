@@ -6,7 +6,7 @@ Project pageserver for CIS 399se (CIS322)
 
 * You can find the working version of the code under the name of "pageserve.py"
   * There is an empty file called omar.img for testing the server
-* My Username on the ix server is "oka", the folder can be located at `ix.cs.uoregon.edu/~oka/public_html/cis399se/httbin/proj-pageserver/`
+* My Username on the ix server is "oka", the folder can be located at `ix.cs.uoregon.edu/~oka/public_html/cis399se/htbin/proj-pageserver/`
 
 
 #### Extra feature ####
